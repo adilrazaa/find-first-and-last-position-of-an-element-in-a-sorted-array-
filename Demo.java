@@ -5,26 +5,39 @@ import java.util.Arrays;
 public class Demo {
     public static void main(String [] args){
         int [] arr={1,2,4,6,7,9,9,23,45,66,78,99};
-        int target=99;
-        System.out.println(Arrays.toString(search(arr,target)));
+        int target=9;
+        Demo d=new Demo();
+        System.out.println(Arrays.toString(d.search(arr,target)));
 
     }
-    static int[] search(int[] arr,int target){
+    public int[] search(int[] arr,int target){
+        int start=get(arr,target,true);
+        int end=get(arr,target,false);
+        return new int[]{start,end};
+    }
+    public int get(int[] arr,int target, boolean firstElement){
+        int ans=-1;
         int start=0;
         int end=arr.length-1;
-        int s=-1;
-        int e=-1;
-        for(int i=0;i<arr.length;i++){
-            if(arr[i]==target){
-                s=i;
-                break;
+        while(start<=end){
+            int mid=start+(end-start)/2;
+            if(target>arr[mid]){
+                start=mid+1;
             }
-        }for(int i=arr.length-1;i>=0;i--){
-            if(arr[i]==target){
-                e=i;
-                break;
+            else if(target<arr[mid]){
+                end=mid-1;
             }
+            else{
+                ans=mid;
+                if(firstElement){
+                    end=mid-1;
+                }
+                else{
+                    start=mid+1;
+                }
+            }
+        
         }
-        return new int[]{s,e};
+        return ans;
     }
 }
